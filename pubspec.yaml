@@ -37,10 +37,14 @@ dependencies:
   http: ^0.13.1
   fl_chart: ^0.35.0
   intl: ^0.17.0
+  flutter_launcher_icons: ^0.9.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+flutter_icons:
+  image_path_android: "assets/images/icon.png"
+  android: true # can specify file name here e.g. "ic_launcher"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
