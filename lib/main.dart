@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/services.dart';
 
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -143,13 +142,20 @@ class _MyHomePageState extends State<MyHomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-              AspectRatio(
-                aspectRatio: 1.70,
-                child: Container(
-                  decoration: const BoxDecoration(color: Colors.transparent),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        right: 0.0, left: 0.0, top: 24, bottom: 12),
+              getShadowContainer([
+                Text(
+                  "Температура за 3 дня",
+                  style: TextStyle(fontSize: 20, color: Colors.black, shadows: [
+                    Shadow(
+                        blurRadius: 10,
+                        color: Colors.black38.withAlpha(40),
+                        offset: Offset(1, 2))
+                  ]),
+                ),
+                SizedBox(height: 20),
+                AspectRatio(
+                  aspectRatio: 2.10,
+                  child: Container(
                     child: weather != null
                         ? LineChart(
                             mainData(weather),
@@ -157,45 +163,56 @@ class _MyHomePageState extends State<MyHomePage> {
                         : Container(),
                   ),
                 ),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.2),
-              Text(
-                'Температура у НГУ',
-                style: TextStyle(fontSize: 35, color: Colors.black, shadows: [
-                  Shadow(
-                      blurRadius: 10,
-                      color: Colors.black38,
-                      offset: Offset(1, 2))
-                ]),
-              ),
-              SizedBox(height: 10),
-              Text(
-                weather != null ? weather.temperature + "°" : ":(",
-                style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                    shadows: [
-                      Shadow(
-                          blurRadius: 10,
-                          color: Colors.black38,
-                          offset: Offset(1, 2))
-                    ]),
-              ),
+              ], context),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+              getShadowContainer([
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Температура у НГУ',
+                        style: TextStyle(fontSize: 20, color: Colors.black, shadows: [
+                          Shadow(
+                              blurRadius: 10,
+                              color: Colors.black38.withAlpha(40),
+                              offset: Offset(1, 2))
+                        ]),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Text(DateFormat('kk:mm:ss \nEEE d MMM').format(DateTime.now()),style: TextStyle(fontSize: 20, color: Colors.blue[900], shadows: [
+                        Shadow(
+                            blurRadius: 6,
+                            color: Colors.black54.withAlpha(40),
+                            offset: Offset(0, 1))
+                      ])),
+                      SizedBox(width: 30),
+                      Text(
+                        weather != null ? weather.temperature + "°" : ":(",
+                        style: TextStyle(
+                            color: Colors.blue[900],
+                            fontSize: 40,
+                            fontWeight: FontWeight.normal,
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+              ], context),
               SizedBox(height: 20),
-
-              Text(DateFormat.Md().format(DateTime.now()).toString(),
-                  style: TextStyle(fontSize: 35, color: Colors.black, shadows: [
-                    Shadow(
-                        blurRadius: 6,
-                        color: Colors.black54,
-                        offset: Offset(0, 1))
-                  ]))
             ],
           ),
         ),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topRight,
+            begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: <Color>[
               getPrimaryColor(weather),
@@ -214,16 +231,37 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-Color getPrimaryColor(Weather weather)
-{
-  if(weather == null)
-    return Colors.white60;
-  if(weather.temp()<0)
-    return Colors.blue;
-  if(weather.temp()<10)
+
+Widget getShadowContainer(List<Widget> children, BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.all(3.0),
+    child: Container(
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        children: children,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(15)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 2,
+            blurRadius: 15,
+            offset: Offset(2, 0), // changes position of shadow
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Color getPrimaryColor(Weather weather) {
+  if (weather == null) return Colors.white60;
+  if (weather.temp() < 0) return Colors.blue;
+  if (weather.temp() < 10)
     return Colors.lightBlueAccent;
-  else if(weather.temp()<20)
-    return Colors.redAccent;
+  else if (weather.temp() < 20) return Colors.redAccent;
   return Colors.red;
 }
 
