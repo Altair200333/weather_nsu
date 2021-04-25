@@ -25,7 +25,10 @@ class Weather
     //--
     loadVerticalLabel();
   }
-
+  int temp()
+  {
+    return double.parse(temperature).round();
+  }
   void loadVerticalLabel() {
     String regex = r"(?<=(\<b\>))(.*?)(?=\&deg\;)";
     final dataRegex = RegExp(regex, multiLine: true);

@@ -66,6 +66,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
     return MaterialApp(
       title: 'Weather.nsu',
       theme: ThemeData(
@@ -155,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.2),
               Text(
-                'Температура у НГУ:',
+                'Температура у НГУ',
                 style: TextStyle(fontSize: 35, color: Colors.black, shadows: [
                   Shadow(
                       blurRadius: 10,
@@ -191,11 +196,12 @@ class _MyHomePageState extends State<MyHomePage> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
+            end: Alignment.bottomCenter,
             colors: <Color>[
-              Colors.deepOrange,
+              getPrimaryColor(weather),
               Colors.white60,
-              Colors.lightBlueAccent,
+              Colors.white60,
+              //getPrimaryColor(weather),
             ],
           ),
         ),
@@ -207,6 +213,18 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+Color getPrimaryColor(Weather weather)
+{
+  if(weather == null)
+    return Colors.white60;
+  if(weather.temp()<0)
+    return Colors.blue;
+  if(weather.temp()<10)
+    return Colors.lightBlueAccent;
+  else if(weather.temp()<20)
+    return Colors.redAccent;
+  return Colors.red;
 }
 
 void backgroundCallback(Uri data) async {
