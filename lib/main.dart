@@ -25,7 +25,7 @@ void main() {
   initializeDateFormatting();
 
   WidgetsFlutterBinding.ensureInitialized();
-  Workmanager.initialize(callbackDispatcher, isInDebugMode: kDebugMode);
+  Workmanager.initialize(callbackDispatcher);
 
   runApp(MyApp());
 }
@@ -143,16 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height * 0.1),
               getShadowContainer([
-                Text(
-                  "Температура за 3 дня",
-                  style: TextStyle(fontSize: 20, color: Colors.black, shadows: [
-                    Shadow(
-                        blurRadius: 10,
-                        color: Colors.black38.withAlpha(40),
-                        offset: Offset(1, 2))
-                  ]),
-                ),
-                SizedBox(height: 20),
+                SizedBox(height: 4),
                 AspectRatio(
                   aspectRatio: 2.10,
                   child: Container(
@@ -163,6 +154,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         : Container(),
                   ),
                 ),
+                SizedBox(height: 8),
+                Text(
+                  "Температура за 3 дня",
+                  style: TextStyle(fontSize: 20, color: Colors.black, shadows: [
+                    Shadow(
+                        blurRadius: 15,
+                        color: Colors.black38.withAlpha(50),
+                        offset: Offset(1, 2))
+                  ]),
+                ),
+                SizedBox(height: 4),
               ], context),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               getShadowContainer([
@@ -172,12 +174,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: [
                       Text(
                         'Температура у НГУ',
-                        style: TextStyle(fontSize: 20, color: Colors.black, shadows: [
-                          Shadow(
-                              blurRadius: 10,
-                              color: Colors.black38.withAlpha(40),
-                              offset: Offset(1, 2))
-                        ]),
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.deepPurple,
+                            shadows: [
+                              Shadow(
+                                  blurRadius: 10,
+                                  color: Colors.black38.withAlpha(40),
+                                  offset: Offset(1, 2))
+                            ]),
                       ),
                     ],
                   ),
@@ -187,21 +192,32 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      Text(DateFormat('kk:mm:ss \nEEE d MMM').format(DateTime.now()),style: TextStyle(fontSize: 20, color: Colors.blue[900], shadows: [
-                        Shadow(
-                            blurRadius: 6,
-                            color: Colors.black54.withAlpha(40),
-                            offset: Offset(0, 1))
-                      ])),
-                      SizedBox(width: 30),
                       Text(
                         weather != null ? weather.temperature + "°" : ":(",
                         style: TextStyle(
-                            color: Colors.blue[900],
-                            fontSize: 40,
-                            fontWeight: FontWeight.normal,
-                            ),
+                          color: Colors.deepPurple,
+                          fontSize: 30,
+                        ),
                       ),
+                      Container(
+                          height: 30,
+                          child: VerticalDivider(
+                            color: Colors.deepPurple,
+                            width: 30,
+                            thickness: 2,
+                          )),
+                      Text(
+                          DateFormat('kk:mm:ss \nEEE d MMM')
+                              .format(DateTime.now()),
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.deepPurple,
+                              shadows: [
+                                Shadow(
+                                    blurRadius: 6,
+                                    color: Colors.black54.withAlpha(40),
+                                    offset: Offset(0, 1))
+                              ])),
                     ],
                   ),
                 ),
@@ -216,7 +232,6 @@ class _MyHomePageState extends State<MyHomePage> {
             end: Alignment.bottomCenter,
             colors: <Color>[
               getPrimaryColor(weather),
-              Colors.white60,
               Colors.white60,
               //getPrimaryColor(weather),
             ],
@@ -234,7 +249,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 Widget getShadowContainer(List<Widget> children, BuildContext context) {
   return Padding(
-    padding: const EdgeInsets.all(3.0),
+    padding: const EdgeInsets.all(5.0),
     child: Container(
       width: MediaQuery.of(context).size.width,
       child: Column(
@@ -242,13 +257,13 @@ Widget getShadowContainer(List<Widget> children, BuildContext context) {
       ),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(15)),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 2,
-            blurRadius: 15,
-            offset: Offset(2, 0), // changes position of shadow
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 5,
+            blurRadius: 20,
+            offset: Offset(0, 10), // changes position of shadow
           ),
         ],
       ),
@@ -258,9 +273,9 @@ Widget getShadowContainer(List<Widget> children, BuildContext context) {
 
 Color getPrimaryColor(Weather weather) {
   if (weather == null) return Colors.white60;
-  if (weather.temp() < 0) return Colors.blue;
+  if (weather.temp() < 0) return Colors.blue[600];
   if (weather.temp() < 10)
-    return Colors.lightBlueAccent;
+    return Colors.blue[200];
   else if (weather.temp() < 20) return Colors.redAccent;
   return Colors.red;
 }
@@ -286,8 +301,8 @@ void _stopBackgroundUpdate() {
 
 LineChartData mainData(Weather weather) {
   List<Color> gradientColors = [
-    Colors.red,
-    Colors.blue,
+    Colors.redAccent,
+    Colors.deepPurple,
   ];
   List<FlSpot> spots = new List();
   for (int i = 0; i < weather.yint.length; ++i) {
@@ -366,10 +381,14 @@ LineChartData mainData(Weather weather) {
         dotData: FlDotData(
           show: false,
         ),
-        //belowBarData: BarAreaData(
-        //  show: true,
-        //  colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
-        //),
+        belowBarData: BarAreaData(show: true, colors: [
+          ColorTween(begin: gradientColors[0], end: gradientColors[1])
+              .lerp(0.2)
+              .withOpacity(0.1),
+          ColorTween(begin: gradientColors[1], end: gradientColors[1])
+              .lerp(0.2)
+              .withOpacity(0.1),
+        ]),
       ),
     ],
   );
