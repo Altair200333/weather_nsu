@@ -30,16 +30,8 @@ class Weather
   }
 
   void loadPoints() async{
-    //String regex = r"(?<=\>)(.*?)(?=\<\/temp\>)";
-    //final dataRegex = RegExp(regex, multiLine: true);
-    //var res = dataRegex.allMatches(rawData);
-//
-    //String regexOnX = """(?<=temp timestamp\=\")(.*?)(?=\"\>)""";
-    //final xRegex = RegExp(regexOnX, multiLine: true);
-    //var resX = xRegex.allMatches(rawData);
     final document = XmlDocument.parse(rawData);
     final titles = document.findAllElements('temp');
-
 
     xint = new List();
     yint = new List();
@@ -50,11 +42,6 @@ class Weather
               xint.add(double.parse(w.getAttribute("timestamp")).toInt());
               yint.add(double.parse(w.text));
             });
-    //for(int i=0;i<res.length;++i)
-    //{
-    //  xint.add(int.parse(resX.elementAt(i).group(0)));
-    //  yint.add(double.parse(res.elementAt(i).group(0)));
-    //}
   }
 }
 class WeatherLoader
