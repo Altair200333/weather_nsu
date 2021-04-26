@@ -28,10 +28,10 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
         override fun doInBackground(vararg params: Void?): String {
             try {
                 var time = (System.currentTimeMillis()/1000).toInt();
-                var doc = URL("http://weather.nsu.ru/loadata.php?tick=$time&rand=0.8170059955126809&std=three").readText()
-                var pattern = Regex("""\d+\.\d+&deg;C\';""");
+                var doc = URL("http://weather.nsu.ru/weather.xml?std=three").readText()
+                var pattern = Regex("""(?<=\>)(.*?)(?=\<\/current\>)""");
                 var rawTemp = pattern.find(doc)?.value;
-                var temp = rawTemp.toString().substringBefore('&');
+                var temp = rawTemp.toString();
                 updateWeather(temp);
             }
             catch (e: Exception)
