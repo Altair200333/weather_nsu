@@ -250,7 +250,7 @@ packages:
     source: git
     version: "0.2.4"
   xml:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: xml
       url: "https://pub.dartlang.org"

@@ -1,6 +1,9 @@
+import 'package:xml/xml.dart';
+
 import 'package:http/http.dart' as http;
 import 'dart:math';
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 
 class Weather
 {
@@ -20,30 +23,38 @@ class Weather
   void fetchPlotData()
   {
     loadPoints();
-
   }
   int temp()
   {
     return double.parse(temperature).round();
   }
 
-  void loadPoints() {
-    String regex = r"(?<=\>)(.*?)(?=\<\/temp\>)";
-    final dataRegex = RegExp(regex, multiLine: true);
-    var res = dataRegex.allMatches(rawData);
+  void loadPoints() async{
+    //String regex = r"(?<=\>)(.*?)(?=\<\/temp\>)";
+    //final dataRegex = RegExp(regex, multiLine: true);
+    //var res = dataRegex.allMatches(rawData);
+//
+    //String regexOnX = """(?<=temp timestamp\=\")(.*?)(?=\"\>)""";
+    //final xRegex = RegExp(regexOnX, multiLine: true);
+    //var resX = xRegex.allMatches(rawData);
+    final document = XmlDocument.parse(rawData);
+    final titles = document.findAllElements('temp');
 
-    String regexOnX = """(?<=temp timestamp\=\")(.*?)(?=\"\>)""";
-    final xRegex = RegExp(regexOnX, multiLine: true);
-    var resX = xRegex.allMatches(rawData);
 
     xint = new List();
     yint = new List();
-
-    for(int i=0;i<res.length;++i)
-    {
-      xint.add(int.parse(resX.elementAt(i).group(0)));
-      yint.add(double.parse(res.elementAt(i).group(0)));
-    }
+    
+    titles.map((node) => node)
+        .forEach(
+            (var w){
+              xint.add(double.parse(w.getAttribute("timestamp")).toInt());
+              yint.add(double.parse(w.text));
+            });
+    //for(int i=0;i<res.length;++i)
+    //{
+    //  xint.add(int.parse(resX.elementAt(i).group(0)));
+    //  yint.add(double.parse(res.elementAt(i).group(0)));
+    //}
   }
 }
 class WeatherLoader
