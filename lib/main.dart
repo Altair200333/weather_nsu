@@ -143,18 +143,6 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height * 0.1),
               getShadowContainer([
-                SizedBox(height: 4),
-                AspectRatio(
-                  aspectRatio: 2.10,
-                  child: Container(
-                    child: weather != null
-                        ? LineChart(
-                            mainData(weather),
-                          )
-                        : Container(),
-                  ),
-                ),
-                SizedBox(height: 3),
                 Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Row(
@@ -174,6 +162,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                 ),
+                AspectRatio(
+                  aspectRatio: 2.10,
+                  child: Container(
+                    child: weather != null
+                        ? LineChart(
+                            mainData(weather),
+                          )
+                        : Container(),
+                  ),
+                ),
+
                 SizedBox(height: 1),
               ], context),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
@@ -380,7 +379,7 @@ LineChartData mainData(Weather weather) {
     borderData:
         FlBorderData(show: true, border: Border.all(color: border, width: 1)),
     minY: min-30,
-    maxY: max+30,
+    maxY: max+10,
     lineBarsData: [
       LineChartBarData(
         spots: spots,
@@ -391,14 +390,14 @@ LineChartData mainData(Weather weather) {
         dotData: FlDotData(
           show: false,
         ),
-        belowBarData: BarAreaData(show: true, colors: [
-          ColorTween(begin: gradientColors[0], end: gradientColors[1])
-              .lerp(0.2)
-              .withOpacity(0.1),
-          ColorTween(begin: gradientColors[1], end: gradientColors[1])
-              .lerp(0.2)
-              .withOpacity(0.1),
-        ]),
+        //belowBarData: BarAreaData(show: true, colors: [
+        //  ColorTween(begin: gradientColors[0], end: gradientColors[1])
+        //      .lerp(0.2)
+        //      .withOpacity(0.1),
+        //  ColorTween(begin: gradientColors[1], end: gradientColors[1])
+        //      .lerp(0.2)
+        //      .withOpacity(0.1),
+        //]),
       ),
     ],
   );
