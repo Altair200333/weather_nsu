@@ -154,17 +154,27 @@ class _MyHomePageState extends State<MyHomePage> {
                         : Container(),
                   ),
                 ),
-                SizedBox(height: 8),
-                Text(
-                  "Температура за 3 дня",
-                  style: TextStyle(fontSize: 20, color: Colors.black, shadows: [
-                    Shadow(
-                        blurRadius: 15,
-                        color: Colors.black38.withAlpha(50),
-                        offset: Offset(1, 2))
-                  ]),
+                SizedBox(height: 3),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Температура за 3 дня",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.deepPurple,
+                            shadows: [
+                              Shadow(
+                                  blurRadius: 10,
+                                  color: Colors.black38.withAlpha(40),
+                                  offset: Offset(1, 2))
+                            ]),
+                      ),
+                    ],
+                  ),
                 ),
-                SizedBox(height: 4),
+                SizedBox(height: 1),
               ], context),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               getShadowContainer([
@@ -369,8 +379,8 @@ LineChartData mainData(Weather weather) {
     ),
     borderData:
         FlBorderData(show: true, border: Border.all(color: border, width: 1)),
-    minY: min,
-    maxY: max,
+    minY: min-30,
+    maxY: max+30,
     lineBarsData: [
       LineChartBarData(
         spots: spots,
