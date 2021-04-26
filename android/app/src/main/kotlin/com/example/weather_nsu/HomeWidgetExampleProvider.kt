@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.os.Debug
 import android.widget.RemoteViews
+import android.widget.TextView
 import es.antonborri.home_widget.HomeWidgetBackgroundIntent
 import es.antonborri.home_widget.HomeWidgetLaunchIntent
 import es.antonborri.home_widget.HomeWidgetProvider
@@ -35,10 +36,6 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
             }
             catch (e: Exception)
             {
-                views.setTextViewText(R.id.widget_title, ":("
-                        ?: "No Message Set");
-
-                appWidgetManager.updateAppWidget(widgetId, views)
             }
             return "";
         }
@@ -59,7 +56,7 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
                         context,
                         MainActivity::class.java)
                 setOnClickPendingIntent(R.id.widget_container, pendingIntent)
-                
+
                 val message = widgetData.getString("message", null)
                 var title = widgetData.getString("title", null)
             }
