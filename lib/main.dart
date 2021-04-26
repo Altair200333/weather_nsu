@@ -332,12 +332,7 @@ LineChartData mainData(Weather weather) {
               fontWeight: FontWeight.bold,
               fontSize: 14,
             );
-            var label = weather.verticalLabels.elementAt(
-                ((touchedSpot.y - min) /
-                        (max - min) *
-                        (weather.verticalLabels.length))
-                    .clamp(0, weather.verticalLabels.length - 1)
-                    .round());
+            var label = touchedSpot.y.toString();
             return LineTooltipItem(label, textStyle);
           }).toList();
         })),
@@ -346,16 +341,6 @@ LineChartData mainData(Weather weather) {
         leftTitles: SideTitles(
           showTitles: true,
           reservedSize: 30,
-          getTitles: (value) {
-            var label = weather.verticalLabels.elementAt(
-                ((value.toDouble() - min) /
-                        (max - min) *
-                        (weather.verticalLabels.length))
-                    .clamp(0, weather.verticalLabels.length - 1)
-                    .round());
-
-            return "";
-          },
           getTextStyles: (value) =>
               const TextStyle(color: Colors.black, fontSize: 10),
         ),
@@ -378,8 +363,8 @@ LineChartData mainData(Weather weather) {
     ),
     borderData:
         FlBorderData(show: true, border: Border.all(color: border, width: 1)),
-    minY: min-30,
-    maxY: max+10,
+    minY: min-5,
+    maxY: max+5,
     lineBarsData: [
       LineChartBarData(
         spots: spots,
