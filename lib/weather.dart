@@ -6,10 +6,8 @@ class Weather
 {
   String rawData;
   String temperature;
-  List <double> xint;
+  List <int> xint;
   List <double> yint;
-  List<String> verticalLabels;
-  //plot data
   Weather(String raw)
   {
     rawData = raw;
@@ -22,33 +20,28 @@ class Weather
   void fetchPlotData()
   {
     loadPoints();
-    //--
-    //loadVerticalLabel();
+
   }
   int temp()
   {
     return double.parse(temperature).round();
-  }
-  void loadVerticalLabel() {
-    String regex = r"(?<=(\<b\>))(.*?)(?=\&deg\;)";
-    final dataRegex = RegExp(regex, multiLine: true);
-    var res = dataRegex.allMatches(rawData);
-
-    verticalLabels = new List();
-    for(int i=0;i<res.length;++i) {
-      verticalLabels.add(res.elementAt(i).group(0).toString());
-    }
   }
 
   void loadPoints() {
     String regex = r"(?<=\>)(.*?)(?=\<\/temp\>)";
     final dataRegex = RegExp(regex, multiLine: true);
     var res = dataRegex.allMatches(rawData);
-    yint = new List();
+
+    String regexOnX = """(?<=temp timestamp\=\")(.*?)(?=\"\>)""";
+    final xRegex = RegExp(regexOnX, multiLine: true);
+    var resX = xRegex.allMatches(rawData);
+
     xint = new List();
+    yint = new List();
+
     for(int i=0;i<res.length;++i)
     {
-      xint.add(i.toDouble());
+      xint.add(int.parse(resX.elementAt(i).group(0)));
       yint.add(double.parse(res.elementAt(i).group(0)));
     }
   }

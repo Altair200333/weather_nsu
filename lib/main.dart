@@ -332,7 +332,9 @@ LineChartData mainData(Weather weather) {
               fontWeight: FontWeight.bold,
               fontSize: 14,
             );
-            var label = touchedSpot.y.toString();
+            var time = new DateTime.fromMillisecondsSinceEpoch(touchedSpot.x.round()*1000);
+            var display = DateFormat('kk:mm\nEEE d MMM').format(time);
+            var label = touchedSpot.y.toString()+"\n"+display.toString();
             return LineTooltipItem(label, textStyle);
           }).toList();
         })),
